@@ -1,0 +1,129 @@
+@import url('https://rsms.me/inter/inter.css');
+
+.articles {
+	font-family: inter;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 941px;
+	padding-left: 0;
+	margin-top: 21px;
+}
+
+.articles__elem {
+	min-height: 140px;
+	background-color: #FFFFFF;
+	border-radius: 5px;
+	list-style-type: none;
+	box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-wrap: wrap;
+	box-sizing: border-box;
+	margin-bottom: 26px;
+}
+
+.articles__block {
+	text-align: end;
+}
+
+.articles__header {
+	display: flex;
+	align-items: center;
+	margin-top: 19px;
+	height: 20px;
+	cursor: pointer;
+}
+
+.articles__heading {
+	font-style: normal;
+	font-weight: normal;
+	font-size: 20px;
+	line-height: 28px;
+	color: #1890FF;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-right: 13px;
+}
+
+.articles_paragraph {
+	margin: -30px 240px 0 19px;
+	width: 100%;
+	font-family: Inter;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 22px;
+}
+
+.articles__user {
+	display: flex;
+	margin-top: 15px;
+	margin-right: 14px;
+	align-items: center;
+	height: 50px;
+}
+
+.articles__like {
+	border: none;
+	background-color: inherit;
+	outline: none;
+}
+
+.articles__like:hover {
+	outline: none;
+	cursor: pointer;
+}
+
+.articles__userName {
+	font-family: Inter;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	line-height: 28px;
+}
+
+.articles__date {
+	font-family: Inter;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 22px;
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.articles__userPhoto {
+	margin-left: 12px;
+	width: 40px;
+	height: 40px;
+}
+
+.articles__container {
+	margin-right: auto;
+	margin-left: 19px;
+}
+
+.articles__tag {
+	height: 20px;
+	font-family: Inter;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 15px;
+	color: rgba(0, 0, 0, 0.5);
+	background-color: inherit;
+	border: 1px solid rgba(0, 0, 0, 0.5);
+	border-radius: 2px;
+	box-sizing: border-box;
+	padding: 2px 6px 3px 5px;
+	margin-top: 5px;
+	outline: none;
+	margin-right: 8px;
+}
+
+.articles__tag:hover {
+	outline: none;
+	cursor: pointer;
+}
+
+.articles__pagination {
+	text-align: center;
+}

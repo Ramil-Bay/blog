@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+%margin-left-right {
+	margin-left: 32px;
+	margin-right: 32px;
+}
+
+.sign {
+	margin: 59px auto 50px auto;
+	max-width: 384px;
+	background-color: #FFFFFF;
+	border: 1px solid #D9D9D9;
+	box-sizing: border-box;
+	box-shadow: 0px 22px 106px rgba(0, 0, 0, 0.07), 
+	0px 9.19107px 44.2843px rgba(0, 0, 0, 0.0503198), 
+	0px 4.91399px 23.6765px rgba(0, 0, 0, 0.0417275), 
+	0px 2.75474px 13.2728px rgba(0, 0, 0, 0.035), 
+	0px 1.46302px 7.04911px rgba(0, 0, 0, 0.0282725), 
+	0px 0.608796px 2.93329px rgba(0, 0, 0, 0.0196802);
+	border-radius: 6px;
+	font-family: 'Roboto', sans-serif;
+}
+
+.sign__form {
+	display: flex;
+	flex-direction: column;
+}
+
+.sign__header {
+	text-align: center;
+	color: #262626;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 28px;
+	margin-top: 48px;
+}
+
+.sign__input {
+	@extend %margin-left-right;
+	height: 40px;
+	border: 1px solid #D9D9D9;
+	box-sizing: border-box;
+	border-radius: 4px;
+	padding-left: 10px;
+	outline: none;
+}
+
+.sign__fieldName {
+	@extend %margin-left-right;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 22px;
+	margin-top: 12px;
+}
+
+.sign__submit {
+	@extend %margin-left-right;
+	background: #1890FF;
+	border-radius: 4px;
+	height: 40px;
+	border: none;
+	margin-bottom: 10px;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 24px;
+	color: #FFFFFF;
+	margin-top: 21px;
+	cursor: pointer;
+}
+
+.registration__checkbox {
+	@extend %margin-left-right;
+	border-top: 1px solid #E8E8E8;
+	padding-top: 11px;
+	display: flex;
+	margin-top: 21px;
+}
+
+.sign__text {
+	display: block;
+	text-align: center;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 20px;
+	color: #8C8C8C;
+	margin-bottom: 48px;
+}
+
+.registration__agree {
+	margin-right: 5px;
+	height: 16px;
+	width: 16px;
+}
+
+.sign__input:invalid {
+  border: 2px solid #F5222D;
+}
+
+.sign__input:focus {
+	border: 1px solid #0b96e5;
+	box-shadow: inset 0px 0px 5px 1px #0b96e5;
+}
+
+.errorMessage {
+	color: #F5222D;
+	@extend %margin-left-right;
+	margin-bottom: 0;
+}
+
+.errorMessage:before {
+    display: inline;
+    content: "⚠ ";
+}    
+
+.errorAgree {
+	width: 100%;
+	justify-content: center;
+}

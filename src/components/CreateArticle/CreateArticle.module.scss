@@ -1,0 +1,132 @@
+@import '../SignUp/SignUp.module';
+@import url('https://fonts.googleapis.com/css2?family=Roboto');
+
+.newArticle {
+	max-width: 938px;
+	width: 100%;
+	margin: 34px auto 50px auto;
+	background-color: #FFFFFF;
+	border: 1px solid #D9D9D9;
+	box-sizing: border-box;
+	box-shadow: 0px 22px 106px rgba(0, 0, 0, 0.07), 
+	0px 9.19107px 44.2843px rgba(0, 0, 0, 0.0503198), 
+	0px 4.91399px 23.6765px rgba(0, 0, 0, 0.0417275), 
+	0px 2.75474px 13.2728px rgba(0, 0, 0, 0.035), 
+	0px 1.46302px 7.04911px rgba(0, 0, 0, 0.0282725), 
+	0px 0.608796px 2.93329px rgba(0, 0, 0, 0.0196802);
+	border-radius: 6px;
+	font-family: Roboto, sans-serif;
+}
+
+.newArticle__heading {
+	text-align: center;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 28px;
+	margin-top: 48px;
+}
+
+.newArticle__form {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+}
+
+.newArticle__fieldName {
+	margin-left: 32px;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 22px;
+	color: #262626;
+	margin-top: 21px;
+}
+
+.newArticle__field {
+	margin-left: 32px;
+	margin-right: 32px;
+	border: 1px solid #D9D9D9;
+	box-sizing: border-box;
+	border-radius: 4px;
+	height: 40px;
+	padding-left: 10px;
+}
+
+
+.newArticle__textField {
+	height: 168px;
+	padding: 5px;
+}
+
+.newArticle__submit {
+	height: 40px;
+	width: 319px;
+	background-color: #1890FF;
+	border-radius: 4px;
+	margin-bottom: 48px;
+	border: none;
+	margin-left: 32px;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 24px;
+	color: #FFFFFF;
+}
+
+.newArticle__addTag {
+	width: 136px;
+	height: 40px;
+	box-sizing: border-box;
+	border: 1px solid #1890FF;
+	border-radius: 4px;
+	margin-left: 32px;
+	margin-bottom: 21px;
+	background-color: inherit;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 24px;
+	color: #1890FF;
+	text-align: center;
+	line-height: 40px;
+	cursor: pointer;
+}
+
+.newArticle__tag {
+	box-sizing: border-box;
+	margin-left: 32px;
+	max-width: 300px;
+	width: 100%;
+	height: 40px;
+	border: 1px solid #D9D9D9;
+	border-radius: 4px;
+	margin-bottom: 5px;
+	padding-left: 10px;
+}
+
+
+.newArticle__deleteTag {
+	margin-left: 18px;
+	height: 40px;
+	width: 118px;
+	background-color: inherit;
+	border: 1px solid #F5222D;
+	box-sizing: border-box;
+	border-radius: 4px;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 24px;
+	color: #F5222D;
+	cursor: pointer;
+	text-align: center;
+	line-height: 40px;
+}
+
+.newArticle__tagBlock {
+	display: flex;
+}
