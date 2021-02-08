@@ -1,63 +1,71 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'redux';
 
 import ArticleForm from '../ArticleForm';
-import * as actions from '../../actions/addTag';
 import ApiService from '../../API/ApiService';
 
-const EditArticle = ({ articlesInfo, match, history, addArticlesTag, addNewTag, deleteTag, deleteAllTag }) => {
-
+const EditArticle = ({
+	tagsInfo,
+	history,
+	addArticlesTag,
+	addNewTag,
+	deleteTag,
+	deleteAllTag,
+	defaultValue,
+}) => {
 	const apiService = new ApiService();
 
-	const articleArray = articlesInfo.articles.filter(elem => elem.slug === match.params.slug);
-
-	const article = articleArray[0];
-
-	const onSubmit = data => {
+	const onSubmit = (data) => {
 		const tagArray = [];
 
-		for (let key in data) {
-			if (key.slice(0, 3) === 'tag' && data[key].trim()) tagArray.push(data[key]);
+		for (const key in data) {
+			if (key.slice(0, 3) === 'tag' && data[key].trim()) {
+				tagArray.push(data[key]);
+			}
 		}
 
 		const newObj = {
 			body: data.body,
-			title: data.title, 
+			title: data.title,
 			description: data.description,
 			tagList: tagArray,
-		}
+		};
 
-		apiService.updateArticle(newObj, localStorage.getItem('token'), article.slug)
-		.then((res) => history.push(`/articles/${article.slug}`));
-	}
+		apiService
+			.updateArticle(
+				newObj,
+				localStorage.getItem('token'),
+				defaultValue.slug
+			)
+			.then(() => history.push(`/articles/${defaultValue.slug}`));
+	};
 
 	const addTagFunc = () => {
 		addNewTag();
-	}
+	};
 
 	const deleteTagFunc = (id) => {
 		deleteTag(id);
-	}
-	
+	};
+
 	useEffect(() => {
-		addArticlesTag(article.tagList);
+		addArticlesTag(defaultValue.tagList);
 
-		return (() => deleteAllTag());
-	}, [ ])
-
-
+		return () => deleteAllTag();
+	}, []);
 
 	return (
-		<ArticleForm onSubmit={onSubmit} addTagFunc={() => addTagFunc()} title={article.title}
-		description={article.description} body={article.body} tagList={articlesInfo.tags} deleteTagFunc={deleteTagFunc}
-		edit={true} />
-	)
-}
+		<ArticleForm
+			onSubmit={onSubmit}
+			addTagFunc={() => addTagFunc()}
+			title={defaultValue.title}
+			description={defaultValue.description}
+			body={defaultValue.body}
+			tagList={tagsInfo.tags}
+			deleteTagFunc={deleteTagFunc}
+			edit
+		/>
+	);
+};
 
-const mapStateToProps = (state) => ({
-	articlesInfo: state.articlesReducer,
-});
-
-export default compose(connect(mapStateToProps, actions), withRouter)(EditArticle);
+export default withRouter(EditArticle);

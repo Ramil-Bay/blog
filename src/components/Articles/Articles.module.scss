@@ -15,10 +15,10 @@
 	border-radius: 5px;
 	list-style-type: none;
 	box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-	display: flex;
-	flex-wrap: wrap;
 	box-sizing: border-box;
 	margin-bottom: 26px;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .articles__block {
@@ -62,15 +62,34 @@
 	height: 50px;
 }
 
-.articles__like {
+%like__scss {
 	border: none;
 	background-color: inherit;
 	outline: none;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
 }
 
-.articles__like:hover {
+.articles__unlike {	
+	@extend %like__scss;
+	background-image: url('../../img/Like.svg');
+}
+
+.articles__like {
+	@extend %like__scss;
+	background-image: url('../../img/LikeRed.svg');
+}
+
+.articles__unlike:hover {
 	outline: none;
 	cursor: pointer;
+	background-image: url('../../img/Like.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
 }
 
 .articles__userName {
@@ -126,4 +145,14 @@
 
 .articles__pagination {
 	text-align: center;
+	margin-top: auto;
+}
+
+.articles__oneArticle {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.articles__paginationNone {
+	display: none;
 }

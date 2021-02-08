@@ -4,15 +4,15 @@ const user = {
 	image: null,
 	token: null,
 	username: null,
-}
-const reducer = (state = user, {type, payload}) => {
+};
+const reducer = (state = user, { type, payload }) => {
 	switch (type) {
-		case 'USER': 
+		case 'USER':
 			return payload;
-		default:
-			return state;	
-	}
 
-}
+		default:
+			return state;
+	}
+};
 
 export default reducer;

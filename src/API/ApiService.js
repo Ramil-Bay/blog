@@ -3,20 +3,22 @@ export default class ApiService {
 
 	async registration(user) {
 		const obj = {
-			user
-		}
+			user,
+		};
 
-		const res = await fetch(`https://conduit.productionready.io/api/users`, {
-			method: 'POST', 
-			headers: {
-				'Content-Type': 'application/json;charset=utf-8'
-			},
-			body: JSON.stringify(obj)
-		});
+		const res = await fetch(
+			`https://conduit.productionready.io/api/users`,
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json;charset=utf-8',
+				},
+				body: JSON.stringify(obj),
+			}
+		);
 
 		const response = await res.json();
 
-		console.log(response);
 		return response;
 	}
 
@@ -24,10 +26,10 @@ export default class ApiService {
 		const res = await fetch(`${this.apiURL}users/login`, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json;charset=utf-8'
+				'Content-Type': 'application/json;charset=utf-8',
 			},
-			body: JSON.stringify({user})
-		})
+			body: JSON.stringify({ user }),
+		});
 
 		const response = await res.json();
 
@@ -37,9 +39,9 @@ export default class ApiService {
 	async getUserInfo(token) {
 		const res = await fetch('https://conduit.productionready.io/api/user', {
 			headers: {
-				'Authorization': `Token ${token}`
+				Authorization: `Token ${token}`,
 			},
-		})
+		});
 
 		const response = await res.json();
 
@@ -48,13 +50,13 @@ export default class ApiService {
 
 	async updateUser(user, token) {
 		const res = await fetch(`${this.apiURL}user`, {
-			method: 'PUT', 
+			method: 'PUT',
 			headers: {
-				'Content-Type': 'application/json;charset=utf-8', 
-				'Authorization': `Token ${token}`
+				'Content-Type': 'application/json;charset=utf-8',
+				Authorization: `Token ${token}`,
 			},
-			body: JSON.stringify({user})
-		})
+			body: JSON.stringify({ user }),
+		});
 
 		const response = await res.json();
 
@@ -65,25 +67,44 @@ export default class ApiService {
 		const res = await fetch(`${this.apiURL}articles`, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json;charset=utf-8', 
-				'Authorization': `Token ${token}`
+				'Content-Type': 'application/json;charset=utf-8',
+				Authorization: `Token ${token}`,
 			},
-			body: JSON.stringify({article})
-		})
+			body: JSON.stringify({ article }),
+		});
 
 		const response = await res.json();
 
 		return response;
 	}
 
-	async getArticles(token, username, offset = 0) {
-		const res = await fetch(`${this.apiURL}articles?author=${username}&limit=10&offset=${offset}`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json;charset=utf-8', 
-				'Authorization': `Token ${token}`,
+	async getArticles(token, offset = 0) {
+		if (token) {
+			const res = await fetch(
+				`${this.apiURL}articles?limit=10&offset=${offset}`,
+				{
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json;charset=utf-8',
+						Authorization: `Token ${token}`,
+					},
+				}
+			);
+
+			const response = await res.json();
+
+			return response;
+		}
+
+		const res = await fetch(
+			`${this.apiURL}articles?limit=10&offset=${offset}`,
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json;charset=utf-8',
+				},
 			}
-		})
+		);
 
 		const response = await res.json();
 
@@ -91,13 +112,34 @@ export default class ApiService {
 	}
 
 	async getArticle(slug, token) {
+		if (token) {
+			const res = await fetch(`${this.apiURL}articles/${slug}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json;charset=utf-8',
+					Authorization: `Token ${token}`,
+				},
+			});
+
+			if (!res.ok) {
+				throw new Error(`received ${res.status}`);
+			}
+
+			const response = await res.json();
+
+			return response;
+		}
+
 		const res = await fetch(`${this.apiURL}articles/${slug}`, {
 			method: 'GET',
 			headers: {
-				'Content-Type': 'application/json;charset=utf-8', 
-				'Authorization': `Token ${token}`,
-			}
+				'Content-Type': 'application/json;charset=utf-8',
+			},
 		});
+
+		if (!res.ok) {
+			throw new Error(`received ${res.status}`);
+		}
 
 		const response = await res.json();
 
@@ -108,8 +150,8 @@ export default class ApiService {
 		const res = await fetch(`${this.apiURL}articles/${slug}`, {
 			method: 'DELETE',
 			headers: {
-				'Content-Type': 'application/json;charset=utf-8', 
-				'Authorization': `Token ${token}`
+				'Content-Type': 'application/json;charset=utf-8',
+				Authorization: `Token ${token}`,
 			},
 		});
 
@@ -122,10 +164,10 @@ export default class ApiService {
 		const res = await fetch(`${this.apiURL}articles/${slug}`, {
 			method: 'PUT',
 			headers: {
-				'Content-Type': 'application/json;charset=utf-8', 
-				'Authorization': `Token ${token}`
+				'Content-Type': 'application/json;charset=utf-8',
+				Authorization: `Token ${token}`,
 			},
-			body: JSON.stringify({article}),
+			body: JSON.stringify({ article }),
 		});
 
 		const response = await res.json();
@@ -137,14 +179,17 @@ export default class ApiService {
 		const res = await fetch(`${this.apiURL}articles/${slug}/favorite`, {
 			method,
 			headers: {
-				'Content-Type': 'application/json;charset=utf-8', 
-				'Authorization': `Token ${token}`
+				'Content-Type': 'application/json;charset=utf-8',
+				Authorization: `Token ${token}`,
 			},
-		})
+		});
+
+		if (!res.ok) {
+			throw new Error(`received ${res.status}`);
+		}
 
 		const response = await res.json();
 
 		return response;
 	}
-		
 }

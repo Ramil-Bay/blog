@@ -1,4 +1,6 @@
-export const userInfo = (payload) => ({
+const addUserInfo = (payload) => ({
 	type: 'USER',
-	payload
-})
+	payload,
+});
+
+export default addUserInfo;

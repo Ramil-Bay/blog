@@ -1,8 +1,15 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 
 import articlesReducer from './articlesReducer';
 import userReducer from './userReducer';
+import tagsReducer from './tagsReducer';
+import defaultValueReducer from './defaultValueReducer';
 
-let rootReducer = combineReducers({userReducer, articlesReducer});
+const rootReducer = combineReducers({
+	userReducer,
+	articlesReducer,
+	tagsReducer,
+	defaultValueReducer,
+});
 
 export default rootReducer;
