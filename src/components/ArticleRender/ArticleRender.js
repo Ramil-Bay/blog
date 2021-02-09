@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
 import { message } from 'antd';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'redux';
 
 import ArticlePage from '../ArticlePage';
-import * as actions from '../../actions/articlesActions';
 import ApiService from '../../API/ApiService';
 import Spinner from '../Spinner';
 
-const ArticleRender = ({ slug, articlesInfo, getArticle, history }) => {
+const ArticleRender = ({
+	slug,
+	articlesInfo,
+	getArticle,
+	history,
+	addDefaultValue,
+	userInfo,
+}) => {
 	const apiService = new ApiService();
 
 	useEffect(() => {
@@ -47,7 +51,13 @@ const ArticleRender = ({ slug, articlesInfo, getArticle, history }) => {
 	};
 
 	const renderComponent = articlesInfo.article ? (
-		<ArticlePage slug={slug} likeArticle={likeArticle} />
+		<ArticlePage
+			slug={slug}
+			likeArticle={likeArticle}
+			articlesInfo={articlesInfo}
+			addDefaultValue={addDefaultValue}
+			userInfo={userInfo}
+		/>
 	) : (
 		<Spinner />
 	);
@@ -55,11 +65,4 @@ const ArticleRender = ({ slug, articlesInfo, getArticle, history }) => {
 	return renderComponent;
 };
 
-const mapStateToProps = (state) => ({
-	articlesInfo: state.articlesReducer,
-});
-
-export default compose(
-	connect(mapStateToProps, actions),
-	withRouter
-)(ArticleRender);
+export default withRouter(ArticleRender);

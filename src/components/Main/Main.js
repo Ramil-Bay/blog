@@ -32,6 +32,8 @@ const Main = ({
 	addNewTag,
 	deleteTag,
 	addArticlesTag,
+	getArticle,
+	addDefaultValue,
 }) => {
 	const apiService = new ApiService();
 
@@ -81,7 +83,13 @@ const Main = ({
 						path="/articles/:slug"
 						exact
 						render={({ match }) => (
-							<ArticleRender slug={match.params.slug} />
+							<ArticleRender
+								slug={match.params.slug}
+								articlesInfo={articlesInfo}
+								getArticle={getArticle}
+								addDefaultValue={addDefaultValue}
+								userInfo={user}
+							/>
 						)}
 					/>
 					<PrivateRouteEditArticle

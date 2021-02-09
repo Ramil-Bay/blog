@@ -1,14 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import format from 'date-fns/format';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
 import { Popconfirm, message } from 'antd';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'redux';
 
 import ApiService from '../../API/ApiService';
-import * as actions from '../../actions/defaultValueActions';
 
 import classes from './ArticlePage.module.scss';
 
@@ -136,13 +133,4 @@ const ArticlePage = ({
 	);
 };
 
-const mapStateToProps = (state) => ({
-	articlesInfo: state.articlesReducer,
-	defaultValue: state.defaultValueReducer,
-	userInfo: state.userReducer,
-});
-
-export default compose(
-	connect(mapStateToProps, actions),
-	withRouter
-)(ArticlePage);
+export default withRouter(ArticlePage);
