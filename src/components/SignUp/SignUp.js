@@ -47,6 +47,7 @@ const SignUp = ({ addUserInfo, history }) => {
 				} else {
 					const { token, bio, image, email, username } = res.user;
 					localStorage.setItem('token', token);
+					localStorage.setItem('username', username);
 					addUserInfo({ token, bio, image, email, username });
 					history.push('/articles');
 				}

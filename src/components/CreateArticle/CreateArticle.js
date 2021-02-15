@@ -10,19 +10,39 @@ const CreateArticle = ({
 	addNewTag,
 	deleteTag,
 	history,
+	changeTagValue,
+	changeFocus,
+	repeatTag,
+	notRepeatTag,
 }) => {
 	const apiService = new ApiService();
 
 	useEffect(() => () => deleteAllTag(), []);
 
-	const onSubmit = (data) => {
-		const tagArray = [];
-
-		for (const key in data) {
-			if (key.slice(0, 3) === 'tag' && data[key].trim()) {
-				tagArray.push(data[key]);
+	const addTagFunc = () => {
+		const { tagValue, tags } = tagsInfo;
+		if (tagValue.trim()) {
+			if (!tags.length) {
+				addNewTag(tagValue);
+				changeTagValue('');
+			} else if (tags.filter((elem) => elem.value === tagValue).length) {
+				repeatTag(tagValue);
+				setTimeout(notRepeatTag, 300);
+			} else {
+				addNewTag(tagValue);
+				changeTagValue('');
 			}
 		}
+	};
+
+	const onSubmit = (data) => {
+		const { focus, tags } = tagsInfo;
+
+		if (focus) {
+			return addTagFunc();
+		}
+
+		const tagArray = tags.map((elem) => elem.value);
 
 		const newObj = {
 			body: data.body,
@@ -36,10 +56,6 @@ const CreateArticle = ({
 			.then(() => history.push(`/articles`));
 	};
 
-	const addTagFunc = () => {
-		addNewTag();
-	};
-
 	const deleteTagFunc = (id) => {
 		deleteTag(id);
 	};
@@ -50,6 +66,9 @@ const CreateArticle = ({
 			addTagFunc={() => addTagFunc()}
 			tagList={tagsInfo.tags}
 			deleteTagFunc={deleteTagFunc}
+			tagValue={tagsInfo.tagValue}
+			changeTagValue={changeTagValue}
+			changeFocus={changeFocus}
 		/>
 	);
 };

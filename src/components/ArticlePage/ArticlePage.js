@@ -13,7 +13,6 @@ const ArticlePage = ({
 	slug,
 	articlesInfo,
 	history,
-	addDefaultValue,
 	userInfo,
 	likeArticle,
 }) => {
@@ -54,7 +53,6 @@ const ArticlePage = ({
 	};
 
 	const editArticle = () => {
-		addDefaultValue({ title, description, body, tagList, slug });
 		history.push(`/articles/${slug}/edit`);
 	};
 

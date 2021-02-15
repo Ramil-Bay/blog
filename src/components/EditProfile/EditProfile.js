@@ -6,7 +6,7 @@ import ApiService from '../../API/ApiService';
 
 import classes from './EditProfile.module.scss';
 
-const EditProfile = ({ addUserInfo }) => {
+const EditProfile = ({ addUserInfo, userInfo }) => {
 	const apiService = new ApiService();
 
 	const {
@@ -66,6 +66,7 @@ const EditProfile = ({ addUserInfo }) => {
 						minLength: 3,
 						maxLength: 20,
 					})}
+					defaultValue={userInfo.username}
 				/>
 				{errors.username?.type === 'required' && (
 					<p className={errorMessage}>Required field.</p>
@@ -94,6 +95,7 @@ const EditProfile = ({ addUserInfo }) => {
 					name="email"
 					placeholder="Email address"
 					ref={register({ required: true })}
+					defaultValue={userInfo.email}
 				/>
 				{errors.username?.type === 'required' && (
 					<p className={errorMessage}>Required field.</p>

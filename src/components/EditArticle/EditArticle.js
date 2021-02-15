@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
+import { message } from 'antd';
+import Spinner from '../Spinner';
 
 import ArticleForm from '../ArticleForm';
 import ApiService from '../../API/ApiService';
@@ -12,17 +14,39 @@ const EditArticle = ({
 	deleteTag,
 	deleteAllTag,
 	defaultValue,
+	changeTagValue,
+	changeFocus,
+	repeatTag,
+	notRepeatTag,
+	slug,
+	addDefaultValue,
 }) => {
 	const apiService = new ApiService();
 
-	const onSubmit = (data) => {
-		const tagArray = [];
-
-		for (const key in data) {
-			if (key.slice(0, 3) === 'tag' && data[key].trim()) {
-				tagArray.push(data[key]);
+	const addTagFunc = () => {
+		const { tagValue, tags } = tagsInfo;
+		if (tagValue.trim()) {
+			if (!tags.length) {
+				addNewTag(tagValue);
+				changeTagValue('');
+			} else if (tags.filter((elem) => elem.value === tagValue).length) {
+				repeatTag(tagValue);
+				setTimeout(notRepeatTag, 300);
+			} else {
+				addNewTag(tagValue);
+				changeTagValue('');
 			}
 		}
+	};
+
+	const onSubmit = (data) => {
+		const { focus, tags } = tagsInfo;
+
+		if (focus) {
+			return addTagFunc();
+		}
+
+		const tagArray = tags.map((elem) => elem.value);
 
 		const newObj = {
 			body: data.body,
@@ -40,21 +64,54 @@ const EditArticle = ({
 			.then(() => history.push(`/articles/${defaultValue.slug}`));
 	};
 
-	const addTagFunc = () => {
-		addNewTag();
-	};
-
 	const deleteTagFunc = (id) => {
 		deleteTag(id);
 	};
 
 	useEffect(() => {
-		addArticlesTag(defaultValue.tagList);
+		apiService
+			.getArticle(slug, localStorage.getItem('token'))
+			.then((res) => {
+				const {
+					title,
+					description,
+					body,
+					tagList,
+					author,
+				} = res.article;
+				
+				if (author.username !== localStorage.getItem('username')) history.push('/articles');
 
-		return () => deleteAllTag();
+				addDefaultValue({
+					title,
+					description,
+					body,
+					tagList,
+					author,
+					slug,
+				});
+
+				addArticlesTag(tagList);
+			})
+			.catch(() => {
+				history.push('/articles');
+				message.error('This article was deleted');
+			});
+
+		return () => {
+			addDefaultValue({
+				title: null,
+				description: null,
+				body: null,
+				tagList: null,
+				author: null,
+				slug: null,
+			});
+			deleteAllTag();
+		};
 	}, []);
 
-	return (
+	const renderSpinnerOrComponent = defaultValue.title ? (
 		<ArticleForm
 			onSubmit={onSubmit}
 			addTagFunc={() => addTagFunc()}
@@ -62,10 +119,16 @@ const EditArticle = ({
 			description={defaultValue.description}
 			body={defaultValue.body}
 			tagList={tagsInfo.tags}
+			tagValue={tagsInfo.tagValue}
 			deleteTagFunc={deleteTagFunc}
-			edit
+			changeTagValue={changeTagValue}
+			changeFocus={changeFocus}
 		/>
+	) : (
+		<Spinner />
 	);
+
+	return renderSpinnerOrComponent;
 };
 
 export default withRouter(EditArticle);

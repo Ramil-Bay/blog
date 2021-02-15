@@ -5,6 +5,10 @@ import {
 	addNewTag,
 	deleteTag,
 	deleteAllTag,
+	changeTagValue,
+	changeFocus,
+	repeatTag,
+	notRepeatTag,
 } from './tagActions';
 import addUserInfo from './userActions';
 
@@ -18,4 +22,8 @@ export {
 	deleteTag,
 	deleteAllTag,
 	addUserInfo,
+	changeTagValue,
+	changeFocus,
+	repeatTag,
+	notRepeatTag,
 };

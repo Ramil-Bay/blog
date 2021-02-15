@@ -4,6 +4,7 @@ const defaultValue = {
 	body: null,
 	tagList: null,
 	slug: null,
+	author: null,
 };
 
 const defaultValueReducer = (state = defaultValue, { type, payload }) => {

@@ -34,6 +34,10 @@ const Main = ({
 	addArticlesTag,
 	getArticle,
 	addDefaultValue,
+	changeTagValue,
+	changeFocus,
+	repeatTag,
+	notRepeatTag,
 }) => {
 	const apiService = new ApiService();
 
@@ -77,6 +81,7 @@ const Main = ({
 						path="/profile"
 						component={EditProfile}
 						addUserInfo={addUserInfo}
+						userInfo={user}
 					/>
 
 					<Route
@@ -102,6 +107,11 @@ const Main = ({
 						deleteTag={deleteTag}
 						addNewTag={addNewTag}
 						defaultValue={defaultValue}
+						changeTagValue={changeTagValue}
+						changeFocus={changeFocus}
+						repeatTag={repeatTag}
+						notRepeatTag={notRepeatTag}
+						addDefaultValue={addDefaultValue}
 					/>
 					<PrivateRouter
 						exact
@@ -111,6 +121,10 @@ const Main = ({
 						deleteAllTag={deleteAllTag}
 						deleteTag={deleteTag}
 						addNewTag={addNewTag}
+						changeTagValue={changeTagValue}
+						changeFocus={changeFocus}
+						repeatTag={repeatTag}
+						notRepeatTag={notRepeatTag}
 					/>
 					<Redirect
 						to={

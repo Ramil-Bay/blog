@@ -1,6 +1,8 @@
 const tagsData = {
 	tagCounter: 0,
 	tags: [],
+	tagValue: '',
+	focus: false,
 };
 
 const tagsReducer = (state = tagsData, { type, payload }) => {
@@ -10,6 +12,7 @@ const tagsReducer = (state = tagsData, { type, payload }) => {
 				name: `tag${i}`,
 				id: i,
 				value: elem,
+				repeat: false,
 			}));
 			return {
 				...state,
@@ -21,7 +24,8 @@ const tagsReducer = (state = tagsData, { type, payload }) => {
 			const newTag = {
 				name: `tag${state.tagCounter}`,
 				id: state.tagCounter,
-				value: '',
+				value: payload,
+				repeat: false,
 			};
 			return {
 				...state,
@@ -41,6 +45,43 @@ const tagsReducer = (state = tagsData, { type, payload }) => {
 				...state,
 				tags: [],
 				tagCounter: 0,
+			};
+
+		case 'CHANGE_TAG_VALUE':
+			return {
+				...state,
+				tagValue: payload,
+			};
+
+		case 'CHANGE_FOCUS':
+			return {
+				...state,
+				focus: payload,
+			};
+
+		case 'REPEAT_TAG':
+			const newTagArr = state.tags.map((elem) => {
+				if (elem.value === payload) {
+					return {
+						...elem,
+						repeat: true,
+					};
+				}
+				return elem;
+			});
+			return {
+				...state,
+				tags: newTagArr,
+			};
+
+		case 'NOT_REPEAT_TAG':
+			const newNotRepeatTags = state.tags.map((elem) => ({
+				...elem,
+				repeat: false,
+			}));
+			return {
+				...state,
+				tags: newNotRepeatTags,
 			};
 
 		default:
