@@ -2,12 +2,15 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, withRouter } from 'react-router-dom';
 
-import ApiService from '../../API/ApiService';
+import SignService from '../../api/SignService';
+import ErrorMessages from '../../errorMessages/errorMessages';
 
 import classes from './SignIn.module.scss';
 
 const SignIn = ({ addUserInfo, history }) => {
-	const apiService = new ApiService();
+	const signService = new SignService();
+
+	const errorMessages = new ErrorMessages();
 
 	const {
 		sign,
@@ -23,20 +26,21 @@ const SignIn = ({ addUserInfo, history }) => {
 	const { register, handleSubmit, errors, setError } = useForm();
 
 	const onSubmit = (data) => {
-		apiService.signIn(data).then((res) => {
-			if (res.errors) {
+		signService
+			.signIn(data)
+			.then((res) => {
+				const { token, bio, image, email, username } = res.user;
+				localStorage.setItem('token', token);
+				localStorage.setItem('username', username);
+				addUserInfo({ bio, image, email, username });
+				history.push('/articles');
+			})
+			.catch(() => {
 				setError('password', {
 					type: 'invalid',
 					message: 'Login or password is invalid',
 				});
-			} else {
-				const { token, bio, image, email, username } = res.user;
-				localStorage.setItem('token', token);
-				localStorage.setItem('username', username);
-				addUserInfo({ token, bio, image, email, username });
-				history.push('/articles');
-			}
-		});
+			});
 	};
 
 	return (
@@ -54,6 +58,7 @@ const SignIn = ({ addUserInfo, history }) => {
 					placeholder="Email addres"
 					ref={register({ required: true })}
 				/>
+				{errorMessages.emailError(errors.email?.type)}
 
 				<span className={sign__fieldName}>Password</span>
 				<input
@@ -67,12 +72,7 @@ const SignIn = ({ addUserInfo, history }) => {
 						maxLength: 40,
 					})}
 				/>
-
-				{errors.password?.type === 'minLength' && (
-					<p className={errorMessage}>
-						Your password needs to be at least 8 characters.
-					</p>
-				)}
+				{errorMessages.passwordError(errors.password?.type)}
 
 				<input type="submit" value="Login" className={sign__submit} />
 				<span className={sign__text}>

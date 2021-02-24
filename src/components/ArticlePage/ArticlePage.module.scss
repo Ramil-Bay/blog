@@ -1,4 +1,5 @@
-@import '../Articles/Articles.module';
+@import '../Article/Article.module';
+@import '../../containers/Articles/Articles.module';
 
 .articles__elem {
 	max-width: 948px;

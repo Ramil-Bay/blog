@@ -12,6 +12,7 @@
     "jest": true
   },
   "rules": {
+    "react/jsx-fragments": "off",
     "no-nested-ternary": "off",
     "no-param-reassign": "off",
     "react/no-array-index-key": "off",

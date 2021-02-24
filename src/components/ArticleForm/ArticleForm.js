@@ -1,7 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import classes from '../CreateArticle/CreateArticle.module.scss';
+import ErrorMessages from '../../errorMessages/errorMessages';
+
+import classes from './ArticleForm.module.scss';
 
 const ArticleForm = ({
 	onSubmit,
@@ -27,17 +29,17 @@ const ArticleForm = ({
 		newArticle__addTag,
 		tagsContainer,
 		newArticle__tag,
-		errorMessage,
 	} = classes;
+
+	const errorMessages = new ErrorMessages();
 
 	const { register, handleSubmit, errors } = useForm();
 
-	let tagArray;
-
 	const repeatTagClass = `${classes.tags__oneTag} ${classes.tags__oneTagRepeat}`;
 
-	if (tagList) {
-		tagArray = tagList.map((elem) => (
+	const tagArray =
+		tagList &&
+		tagList.map((elem) => (
 			<button
 				className={elem.repeat ? repeatTagClass : classes.tags__oneTag}
 				type="button"
@@ -48,7 +50,6 @@ const ArticleForm = ({
 				{elem.value}
 			</button>
 		));
-	}
 
 	const textFieldClass = `${newArticle__field} ${newArticle__textField}`;
 
@@ -70,10 +71,7 @@ const ArticleForm = ({
 					defaultValue={title}
 					placeholder="Title"
 				/>
-
-				{errors.title?.type === 'required' && (
-					<p className={errorMessage}>Required field.</p>
-				)}
+				{errorMessages.articleFormError(errors.title?.type)}
 
 				<span className={newArticle__fieldName}>Short description</span>
 				<input
@@ -84,10 +82,7 @@ const ArticleForm = ({
 					defaultValue={description}
 					placeholder="Description"
 				/>
-
-				{errors.title?.type === 'required' && (
-					<p className={errorMessage}>Required field.</p>
-				)}
+				{errorMessages.articleFormError(errors.description?.type)}
 
 				<span className={newArticle__fieldName}>Text</span>
 				<textarea
@@ -98,10 +93,7 @@ const ArticleForm = ({
 					defaultValue={body}
 					placeholder="Text"
 				/>
-
-				{errors.title?.type === 'required' && (
-					<p className={errorMessage}>Required field.</p>
-				)}
+				{errorMessages.articleFormError(errors.body?.type)}
 
 				<span className={newArticle__fieldName}>Tags</span>
 				<div className={tagsContainer}>{tagArray}</div>

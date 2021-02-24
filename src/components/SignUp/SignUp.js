@@ -2,14 +2,15 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, withRouter } from 'react-router-dom';
 
-import ApiService from '../../API/ApiService';
+import SignService from '../../api/SignService';
+import ErrorMessages from '../../errorMessages/errorMessages';
 
 import classes from './SignUp.module.scss';
 
 const SignUp = ({ addUserInfo, history }) => {
-	const apiService = new ApiService();
+	const signService = new SignService();
 
-	const { registration: registerFunc } = apiService;
+	const errorMessages = new ErrorMessages();
 
 	const {
 		sign,
@@ -21,7 +22,6 @@ const SignUp = ({ addUserInfo, history }) => {
 		registration__checkbox,
 		sign__text,
 		registration__agree,
-		errorMessage,
 	} = classes;
 
 	const { register, handleSubmit, errors, setError, clearErrors } = useForm();
@@ -30,7 +30,7 @@ const SignUp = ({ addUserInfo, history }) => {
 		clearErrors(['username', 'email', 'password', 'repeatPass', 'agree']);
 		const { password, repeatPass } = data;
 		if (password === repeatPass) {
-			registerFunc(data).then((res) => {
+			signService.signUp(data).then((res) => {
 				if (res.errors) {
 					if (res.errors.email !== undefined) {
 						setError('email', {
@@ -41,14 +41,13 @@ const SignUp = ({ addUserInfo, history }) => {
 					if (res.errors.username !== undefined) {
 						setError('username', {
 							type: 'taken',
-							message: 'has already been taken',
 						});
 					}
 				} else {
 					const { token, bio, image, email, username } = res.user;
 					localStorage.setItem('token', token);
 					localStorage.setItem('username', username);
-					addUserInfo({ token, bio, image, email, username });
+					addUserInfo({ bio, image, email, username });
 					history.push('/articles');
 				}
 			});
@@ -80,26 +79,7 @@ const SignUp = ({ addUserInfo, history }) => {
 						maxLength: 20,
 					})}
 				/>
-
-				{errors.username?.type === 'required' && (
-					<p className={errorMessage}>Required field.</p>
-				)}
-
-				{errors.username?.type === 'minLength' && (
-					<p className={errorMessage}>
-						Your username needs to be at least 3 characters.
-					</p>
-				)}
-
-				{errors.username?.type === 'maxLength' && (
-					<p className={errorMessage}>
-						Your username must not exceed 20 characters.
-					</p>
-				)}
-
-				{errors.username?.type === 'taken' && (
-					<p className={errorMessage}>{errors.username.message}</p>
-				)}
+				{errorMessages.usernameError(errors.username?.type)}
 
 				<span className={sign__fieldName}>Email addres</span>
 				<input
@@ -109,14 +89,7 @@ const SignUp = ({ addUserInfo, history }) => {
 					className={sign__input}
 					ref={register({ required: true })}
 				/>
-
-				{errors.email?.type === 'taken' && (
-					<p className={errorMessage}>{errors.email.message}</p>
-				)}
-
-				{errors.email?.type === 'required' && (
-					<p className={errorMessage}>Required field.</p>
-				)}
+				{errorMessages.emailError(errors.email?.type)}
 
 				<span className={sign__fieldName}>Password</span>
 				<input
@@ -130,26 +103,7 @@ const SignUp = ({ addUserInfo, history }) => {
 						maxLength: 40,
 					})}
 				/>
-
-				{errors.password?.type === 'required' && (
-					<p className={errorMessage}>Required field.</p>
-				)}
-
-				{errors.password?.type === 'minLength' && (
-					<p className={errorMessage}>
-						Your password needs to be at least 8 characters.
-					</p>
-				)}
-
-				{errors.password?.type === 'maxLength' && (
-					<p className={errorMessage}>
-						Your password must not exceed 40 characters.
-					</p>
-				)}
-
-				{errors.password?.type === 'notMatch' && (
-					<p className={errorMessage}>{errors.password.message}</p>
-				)}
+				{errorMessages.passwordError(errors.password?.type)}
 
 				<span className={sign__fieldName}>Repeat Password</span>
 				<input
@@ -159,10 +113,7 @@ const SignUp = ({ addUserInfo, history }) => {
 					className={sign__input}
 					ref={register({ required: true })}
 				/>
-
-				{errors.password?.type === 'notMatch' && (
-					<p className={errorMessage}>{errors.password.message}</p>
-				)}
+				{errorMessages.repeatPasswordError(errors.repeatPass?.type)}
 
 				<div className={registration__checkbox}>
 					<input
@@ -175,11 +126,7 @@ const SignUp = ({ addUserInfo, history }) => {
 						I agree to the processing of my personal information
 					</span>
 				</div>
-				{errors.agree?.type === 'required' && (
-					<p className={errorMessage}>
-						To continue you need to accept the agreement.
-					</p>
-				)}
+				{errorMessages.agreement(errors.agree?.type)}
 
 				<input type="submit" value="Create" className={sign__submit} />
 			</form>

@@ -2,22 +2,19 @@ import React from 'react';
 import format from 'date-fns/format';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
-import { Popconfirm, message } from 'antd';
-import { withRouter } from 'react-router-dom';
-
-import ApiService from '../../API/ApiService';
+import { Popconfirm } from 'antd';
 
 import classes from './ArticlePage.module.scss';
 
 const ArticlePage = ({
 	slug,
-	articlesInfo,
-	history,
-	userInfo,
+	article,
+	username,
 	likeArticle,
+	confirmDeleteArticle,
+	cancelDeleteArticle,
+	editArticle,
 }) => {
-	const apiService = new ApiService();
-
 	const {
 		title,
 		description,
@@ -27,42 +24,21 @@ const ArticlePage = ({
 		createdAt,
 		favorited,
 		favoritesCount,
-	} = articlesInfo.article.article;
+	} = article;
 
-	let tags;
-
-	if (tagList !== []) {
-		tags = tagList.map((elem, i) => (
-			<button className={classes.articles__tag} key={i} type="button">
-				{elem}
-			</button>
-		));
-	}
-
-	const confirm = () => {
-		apiService
-			.deleteArticle(localStorage.getItem('token'), slug)
-			.then(() => {
-				history.push('/articles');
-				message.success('The article was successfully deleted');
-			});
-	};
-
-	const cancel = () => {
-		message.error('Article not deleted');
-	};
-
-	const editArticle = () => {
-		history.push(`/articles/${slug}/edit`);
-	};
+	const tags = tagList.map((elem, i) => (
+		<button className={classes.articles__tag} key={i} type="button">
+			{elem}
+		</button>
+	));
 
 	const deleteEditButton =
-		userInfo.username === author.username ? (
+		username === author.username ? (
 			<>
 				<Popconfirm
 					title="Are you sure to delete this article?"
-					onConfirm={confirm}
-					onCancel={cancel}
+					onConfirm={confirmDeleteArticle}
+					onCancel={cancelDeleteArticle}
 					okText="Yes"
 					cancelText="No"
 				>
@@ -111,10 +87,8 @@ const ArticlePage = ({
 					</span>
 				</div>
 				<img
-					className={classes.articles__userPhoto}
-					src={
-						author.image ? author.image : '../../img/UserPhoto.png'
-					}
+					className={classes['articles__user-photo']}
+					src={author.image ? author.image : '../img/UserPhoto.png'}
 					alt="User photo"
 				/>
 			</div>
@@ -131,4 +105,4 @@ const ArticlePage = ({
 	);
 };
 
-export default withRouter(ArticlePage);
+export default ArticlePage;

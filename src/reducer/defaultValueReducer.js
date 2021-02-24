@@ -1,3 +1,5 @@
+import { ADD_DEFAULT_VALUE } from '../actions/defaultValueActions';
+
 const defaultValue = {
 	title: null,
 	description: null,
@@ -9,7 +11,7 @@ const defaultValue = {
 
 const defaultValueReducer = (state = defaultValue, { type, payload }) => {
 	switch (type) {
-		case 'ADD_DEFAULT_VALUE':
+		case ADD_DEFAULT_VALUE:
 			return payload;
 
 		default:

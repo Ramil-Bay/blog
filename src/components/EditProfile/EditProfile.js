@@ -2,12 +2,15 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { message } from 'antd';
 
-import ApiService from '../../API/ApiService';
+import UserService from '../../api/UserService';
+import ErrorMessages from '../../errorMessages/errorMessages';
 
 import classes from './EditProfile.module.scss';
 
 const EditProfile = ({ addUserInfo, userInfo }) => {
-	const apiService = new ApiService();
+	const userService = new UserService();
+
+	const errorMessages = new ErrorMessages();
 
 	const {
 		sign,
@@ -16,7 +19,6 @@ const EditProfile = ({ addUserInfo, userInfo }) => {
 		sign__input,
 		sign__fieldName,
 		sign__submit,
-		errorMessage,
 	} = classes;
 
 	const { register, handleSubmit, errors, setError } = useForm();
@@ -26,25 +28,24 @@ const EditProfile = ({ addUserInfo, userInfo }) => {
 	};
 
 	const onSubmit = (data) => {
-		apiService
-			.updateUser(data, localStorage.getItem('token'))
+		userService
+			.changeUserData(data, localStorage.getItem('token'))
 			.then((res) => {
-				if (res.errors) {
-					if (res.errors.email !== undefined) {
-						setError('email', {
-							type: 'taken',
-							message: 'has already been taken',
-						});
-					}
-					if (res.errors.username !== undefined) {
-						setError('username', {
-							type: 'taken',
-							message: 'has already been taken',
-						});
-					}
+				if (res.errors && res.errors.email) {
+					setError('email', {
+						type: 'taken',
+						message: 'has already been taken',
+					});
+				}
+				if (res.errors && res.errors.username) {
+					setError('username', {
+						type: 'taken',
+						message: 'has already been taken',
+					});
 				} else {
 					const { token, bio, image, email, username } = res.user;
 					localStorage.setItem('token', token);
+					localStorage.setItem('username', username);
 					addUserInfo({ token, bio, image, email, username });
 					success();
 				}
@@ -68,25 +69,7 @@ const EditProfile = ({ addUserInfo, userInfo }) => {
 					})}
 					defaultValue={userInfo.username}
 				/>
-				{errors.username?.type === 'required' && (
-					<p className={errorMessage}>Required field.</p>
-				)}
-
-				{errors.username?.type === 'minLength' && (
-					<p className={errorMessage}>
-						Your username needs to be at least 3 characters.
-					</p>
-				)}
-
-				{errors.username?.type === 'maxLength' && (
-					<p className={errorMessage}>
-						Your username must not exceed 20 characters.
-					</p>
-				)}
-
-				{errors.username?.type === 'taken' && (
-					<p className={errorMessage}>{errors.username.message}</p>
-				)}
+				{errorMessages.usernameError(errors.username?.type)}
 
 				<span className={sign__fieldName}>New Email address</span>
 				<input
@@ -97,13 +80,7 @@ const EditProfile = ({ addUserInfo, userInfo }) => {
 					ref={register({ required: true })}
 					defaultValue={userInfo.email}
 				/>
-				{errors.username?.type === 'required' && (
-					<p className={errorMessage}>Required field.</p>
-				)}
-
-				{errors.email?.type === 'taken' && (
-					<p className={errorMessage}>{errors.email.message}</p>
-				)}
+				{errorMessages.emailError(errors.email?.type)}
 
 				<span className={sign__fieldName}>New password</span>
 				<input
@@ -117,21 +94,7 @@ const EditProfile = ({ addUserInfo, userInfo }) => {
 						maxLength: 40,
 					})}
 				/>
-				{errors.username?.type === 'required' && (
-					<p className={errorMessage}>Required field.</p>
-				)}
-
-				{errors.password?.type === 'minLength' && (
-					<p className={errorMessage}>
-						Your password needs to be at least 8 characters.
-					</p>
-				)}
-
-				{errors.password?.type === 'maxLength' && (
-					<p className={errorMessage}>
-						Your password must not exceed 40 characters.
-					</p>
-				)}
+				{errorMessages.passwordError(errors.password?.type)}
 
 				<span className={sign__fieldName}>Avatar image(url)</span>
 				<input

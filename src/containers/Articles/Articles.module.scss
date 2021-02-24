@@ -1,0 +1,31 @@
+@import url('https://rsms.me/inter/inter.css');
+
+.articles__list {
+	font-family: inter;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 941px;
+	padding-left: 0;
+	margin-top: 21px;
+}
+
+.articles__pagination {
+	text-align: center;
+	margin-top: auto;
+}
+
+.articles__paginationNone {
+	display: none;
+}
+
+.articles__elem {
+	min-height: 140px;
+	background-color: #FFFFFF;
+	border-radius: 5px;
+	list-style-type: none;
+	box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+	box-sizing: border-box;
+	margin-bottom: 26px;
+	display: flex;
+	flex-wrap: wrap;
+}

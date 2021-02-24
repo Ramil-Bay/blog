@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Main from '../Main';
+import Router from '../Router';
 
-const App = () => <Main />;
+const App = () => <Router />;
 
 export default App;
